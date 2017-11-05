@@ -4,7 +4,7 @@ const fs = require('fs');
 class FileHelper extends Object {
   constructor() {
     super();
-    
+
     this.dir = '.';
     this.encoding = 'utf8';
   }
@@ -22,7 +22,7 @@ class FileHelper extends Object {
    * @usage
    *   fileHelper.getFiles(dir).then(files => {
    *     console.log('files.length: ', files.length);
-   *     console.log('main: ', JSON.stringify(files, null, '  '));    
+   *     console.log('main: ', JSON.stringify(files, null, '  '));
    *   });
    */
   async getFiles(dir) {
@@ -44,7 +44,7 @@ class FileHelper extends Object {
             subDirList = await this.getFiles(sFilePath);
             list = list.concat(subDirList);
           }
-          else {          
+          else {
             list.push(sFilePath);
           }
         }
@@ -58,6 +58,23 @@ class FileHelper extends Object {
     });
   }
 
+  mkdirs(dirpath, mode, callback) {
+    let dirnames = [];
+    let temp = dirpath;
+
+    while(temp != '.') {
+      dirnames.splice(0, 0, temp);
+      temp = path.dirname(temp);
+    }
+
+    dirnames.forEach((d) => {
+      if (!fs.existsSync(d)) {
+        fs.mkdirSync(d);
+      }
+    });
+
+    return fs.existsSync(dirpath);
+  }
 };
 
 module.exports = FileHelper;

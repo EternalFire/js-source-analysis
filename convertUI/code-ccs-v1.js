@@ -44,6 +44,7 @@
  */
 
 module.exports = main;
+
 const print = console.log;
 
 const {fileHelper} = require('../base');
